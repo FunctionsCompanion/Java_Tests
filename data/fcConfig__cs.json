@@ -1,0 +1,12 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "fcConfig__c",
+                "referenceId": "fcConfig__cRef1"
+            },
+            "fcKey__c": "fcAPIKey",
+            "fcValue__c": "XXXXXXX-XXXXXXX-XXXXXXX-XXXXXXX"
+        }
+    ]
+}

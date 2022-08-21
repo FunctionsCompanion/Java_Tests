@@ -1,0 +1,10 @@
+[
+    {
+        "sobject": "fcConfig__c",
+        "saveRefs": true,
+        "resolveRefs": false,
+        "files": [
+            "fcConfig__cs.json"
+        ]
+    }
+]

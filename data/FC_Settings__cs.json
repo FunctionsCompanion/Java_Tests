@@ -1,0 +1,13 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "FC_Settings__c",
+                "referenceId": "FC_Settings__cRef1"
+            },
+            "FC_Connections__c": "https://app.lastmileops.ai/sf-org-connection/00DR0000002JvLvMAK",
+            "FC_Dashboard__c": "https://app.lastmileops.ai/sf-org-visualization/00DR0000002JvLvMAK",
+            "FC_Functions__c": "https://app.lastmileops.ai/sf-org-functions/00DR0000002JvLvMAK"
+        }
+    ]
+}
