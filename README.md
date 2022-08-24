@@ -21,6 +21,14 @@ deployments.
 ## Java Test Deployment and Invocation
 Once Functions Companion is installed in your org, you can deploy this project by running `deployTestFunctions.sh`. This script asks for a name for the compute environment it will create and reqires the username of the target org that has Functions Commander installed. The script also configures a logdrain that points to the Functions Companion platform syslog endpoint and deploys the two Java functions in this project.
 
+### Deploy the Project
+
+Deploy this Project by running the following command.
+
+`./deployTestFunctions.sh`
+
+It will as for a name for a new compute envrionment as well as the username for the target org it will deploy to.
+
 **Important: Before you run any tests, update the invocation test scripts with the scratch org username
 used for anonomyous Apex invocation.**
 
