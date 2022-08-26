@@ -23,8 +23,8 @@ envsubst < ./data/FC_Settings__cs.tmpl > ./data/FC_Settings__cs.json
 
 # Install the Functions Companion Package in the org
 echo 'Installing Functions Companion v1.24'
-echo 'sfdx force:package:install -r --wait 10 --package 04t8c000001AJZb -u' ${username}
-sfdx force:package:install -r --wait 10 --package 04t8c000001AJZb -u "${username}"
+echo 'sfdx force:package:install -r --wait 10 --package 04t8c000001AKBA -u' ${username}
+sfdx force:package:install -r --wait 10 --package 04t8c000001AKBA -u "${username}"
 echo ''
 echo 'Configuring the package and installing a dummy API key: XXXXXXX-XXXXXXX-XXXXXXX-XXXXXXX.'
 echo 'Be sure to update with a valide API key after you create your Connected App.'
