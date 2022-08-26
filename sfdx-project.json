@@ -5,7 +5,7 @@
       "default": true
     }
   ],
-  "name": "Java_Tests",
+  "name": "Autoscale_Tests",
   "namespace": "",
   "sfdcLoginUrl": "https://login.salesforce.com",
   "sourceApiVersion": "53.0"
