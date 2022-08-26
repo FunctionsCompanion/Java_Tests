@@ -1,10 +1,11 @@
 #!/bin/bash 
 # Ask users for prefix
+# Need to login to functions as well to get the orgid...
 echo 'Please provide the username for the target org you wish to install Functions Companion.'
 echo -n 'username:'
 read username
 
-sf login functions # Need to login to functions to get the orgid...
+sf login functions 
 export FC_ORG_ID=`sf env list --all | grep ${username} | awk '{print $4}'`
 export FC_HOST="https://app.lastmileops.ai"
 
