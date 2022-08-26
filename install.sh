@@ -1,11 +1,28 @@
-#!/bin/bash
+#!/bin/bash 
 # Ask users for prefix
 echo 'Please provide the username for the target org you wish to install Functions Companion.'
 echo -n 'username:'
 read username
 
+sf login functions # Need to login to functions to get the orgid...
+export FC_ORG_ID=`sf env list --all | grep ${username} | awk '{print $4}'`
+export FC_HOST="https://app.lastmileops.ai"
+
+# Check to see if this is local or dev install
+if [ $# -eq 1 ] && [ "$1" == "local" ]
+then
+  export FC_HOST="http://localhost:3000"
+else 
+    if [ $# -eq 1 ] && [ "$1" == "dev" ]
+    then
+    export FC_HOST="https://prod.lastmileops.ai"
+    fi
+fi
+
+envsubst < ./data/FC_Settings__cs.tmpl > ./data/FC_Settings__cs.json
+
 # Install the Functions Companion Package in the org
-echo 'Installing Functions Companion'
+echo 'Installing Functions Companion v1.24'
 echo 'sfdx force:package:install -r --wait 10 --package 04t8c000001AJZb -u' ${username}
 sfdx force:package:install -r --wait 10 --package 04t8c000001AJZb -u "${username}"
 echo ''
