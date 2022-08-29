@@ -1,2 +1,2 @@
-String Jsonpayload = '{"memoryConsumptionBytes":1024,"taskDurationSeconds":10,"cpuUsageScale":2,"sleepInterval":100}';
+String Jsonpayload = '{"memoryConsumptionBytes":1000000,"taskDurationSeconds":10,"cpuUsageScale":10,"sleepInterval":3000}';
 FCFunction.getAndInvoke('Autoscale_Tests.autoscalingtester', Jsonpayload, 'FCCallback');
