@@ -12,7 +12,7 @@ import logger.FCLogger;
 import java.util.Optional;
 
 /**
- * Describe autoscalingtestertesterFunction here.
+ * Describe autoscalingtesterFunction here.
  */
 public class AutoscalingtesterFunction implements SalesforceFunction<FunctionInput, FunctionOutput> {
   private static final Logger LOGGER = LoggerFactory.getLogger(AutoscalingtesterFunction.class);
