@@ -1,2 +1,2 @@
-String Jsonpayload = '{"latitude": "36.169090","longitude": "-115.140579","length": 5}';
+String Jsonpayload = '{"memoryConsumptionBytes":1024,"taskDurationSeconds":10,"cpuUsageScale":2,"sleepInterval":100}';
 FCFunction.getAndInvoke('Java_Tests.autoscalingtester', Jsonpayload, 'FCCallback');
