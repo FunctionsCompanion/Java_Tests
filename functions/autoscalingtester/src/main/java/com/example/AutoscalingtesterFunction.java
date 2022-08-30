@@ -57,17 +57,17 @@ public class AutoscalingtesterFunction implements SalesforceFunction<Object, Fun
                                   .map(val -> Math.min(val, durationMilliseconds)) // prevent (reduce likelihood of) timeouts
                                   .orElse(1000l);
     double countExecutions = 0;
-    // then spin and perform some activity
-    while (System.currentTimeMillis() < endTime) {
-      populateRandomNumbers(l);
+    // refactor to do a large, fixed quantity of work....
+    for (int q = 0; q < mCpuUsageScale; ++q) {
+      // populateRandomNumbers(l);
 
       int startIdx = 0;
       for (int i = 0; i < numChunks; ++i) {
         // alternate between sleeping and performing some activity
-        if (i > cpuUsageScale) {
-          Thread.sleep(sleepInterval);
-          continue;
-        }
+        // if (i > cpuUsageScale) {
+        //   Thread.sleep(sleepInterval);
+        //   continue;
+        // }
 
         for (int j = startIdx; j < startIdx + sizeChunk; ++j) {
           l[j] = (int)(Math.pow((l[j] * 6) / 7, 3));
@@ -81,10 +81,10 @@ public class AutoscalingtesterFunction implements SalesforceFunction<Object, Fun
     return new FunctionOutput(System.getenv("HOSTNAME"), countExecutions);
   }
 
-  private void populateRandomNumbers(int[] l) {
-    SecureRandom sr = new SecureRandom();
-    for (int i = 0; i < l.length; ++i) {
-      l[i] = sr.nextInt();
-    }
-  }
+  //private void populateRandomNumbers(int[] l) {
+  //  SecureRandom sr = new SecureRandom();
+  //  for (int i = 0; i < l.length; ++i) {
+  //    l[i] = sr.nextInt();
+  //  }
+  //}
 }
