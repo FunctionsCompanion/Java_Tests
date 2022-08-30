@@ -1,45 +1,60 @@
 package com.example;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.salesforce.functions.jvm.sdk.Context;
 import com.salesforce.functions.jvm.sdk.InvocationEvent;
 import com.salesforce.functions.jvm.sdk.SalesforceFunction;
+
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.security.SecureRandom;
 import logger.FCLogger;
 
+import java.util.Map;
 import java.util.Optional;
 
 /**
  * Describe autoscalingtesterFunction here.
  */
-public class AutoscalingtesterFunction implements SalesforceFunction<FunctionInput, FunctionOutput> {
+public class AutoscalingtesterFunction implements SalesforceFunction<Object, FunctionOutput> {
   private static final Logger LOGGER = LoggerFactory.getLogger(AutoscalingtesterFunction.class);
 
   @Override
-  public FunctionOutput apply(InvocationEvent<FunctionInput> event, Context context)
+  public FunctionOutput apply(InvocationEvent<Object> event, Context context)
       throws Exception {
 
     FCLogger fc = new FCLogger(event, context, LOGGER);
+
+    ObjectMapper objectMapper = new ObjectMapper();
+    objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+    Map<String, Object> eventMap = objectMapper.convertValue(event, Map.class);
+    System.out.print(eventMap);
     // first allocate however much memory is necessary
     // assume memory is in bytes. each int takes up 4 bytes.
-    long memoryConsumptionBytes = event.getData().getMemoryConsumptionBytes();
+    long memoryConsumptionBytes = PropertyUtils.getProperty(eventMap, "memoryConsumptionBytes") != null ? Long.valueOf(BeanUtils.getNestedProperty(eventMap, "memoryConsumptionBytes")) : 0;
     int size = (int)(memoryConsumptionBytes / 4);
     int[] l = new int[size];
 
-    long durationMilliseconds = Optional.ofNullable(event.getData().getTaskDurationSeconds())
+    long taskDurationSeconds = PropertyUtils.getProperty(eventMap, "taskDurationSeconds") != null ? Long.valueOf(BeanUtils.getNestedProperty(eventMap, "taskDurationSeconds")) : 0;
+    long durationMilliseconds = Optional.ofNullable(taskDurationSeconds)
                                         .map(tds -> tds * 1000)
                                         .orElse(60000l);
     long endTime = System.currentTimeMillis() + durationMilliseconds;
     // how to split the array
     int numChunks = 10;
     // controls how many chunks should be processed vs. slept on
-    int cpuUsageScale = Optional.ofNullable(event.getData().getCpuUsageScale())
+    int mCpuUsageScale = PropertyUtils.getProperty(eventMap, "cpuUsageScale") != null ? Integer.valueOf(BeanUtils.getNestedProperty(eventMap, "cpuUsageScale")) : 0;
+    int cpuUsageScale = Optional.ofNullable(mCpuUsageScale)
                                 .map(cus -> Math.min(cus, numChunks))
                                 .orElse(numChunks);
     int sizeChunk = l.length / numChunks;
-    long sleepInterval = Optional.ofNullable(event.getData().getSleepInterval())
+
+    long mSleepInterval = PropertyUtils.getProperty(eventMap, "sleepInterval") != null ? Long.valueOf(BeanUtils.getNestedProperty(eventMap, "sleepInterval")) : 0;
+    long sleepInterval = Optional.ofNullable(mSleepInterval)
                                   .map(val -> Math.min(val, durationMilliseconds)) // prevent (reduce likelihood of) timeouts
                                   .orElse(1000l);
     double countExecutions = 0;
