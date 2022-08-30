@@ -32,14 +32,13 @@ public class AutoscalingtesterFunction implements SalesforceFunction<Object, Fun
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
     Map<String, Object> eventMap = objectMapper.convertValue(event, Map.class);
-    System.out.print(eventMap);
     // first allocate however much memory is necessary
     // assume memory is in bytes. each int takes up 4 bytes.
-    long memoryConsumptionBytes = PropertyUtils.getProperty(eventMap, "memoryConsumptionBytes") != null ? Long.valueOf(BeanUtils.getNestedProperty(eventMap, "memoryConsumptionBytes")) : 0;
+    long memoryConsumptionBytes = PropertyUtils.getProperty(eventMap, "data.memoryConsumptionBytes") != null ? Long.valueOf(BeanUtils.getNestedProperty(eventMap, "data.memoryConsumptionBytes")) : 0;
     int size = (int)(memoryConsumptionBytes / 4);
     int[] l = new int[size];
 
-    long taskDurationSeconds = PropertyUtils.getProperty(eventMap, "taskDurationSeconds") != null ? Long.valueOf(BeanUtils.getNestedProperty(eventMap, "taskDurationSeconds")) : 0;
+    long taskDurationSeconds = PropertyUtils.getProperty(eventMap, "data.taskDurationSeconds") != null ? Long.valueOf(BeanUtils.getNestedProperty(eventMap, "data.taskDurationSeconds")) : 0;
     long durationMilliseconds = Optional.ofNullable(taskDurationSeconds)
                                         .map(tds -> tds * 1000)
                                         .orElse(60000l);
@@ -47,13 +46,13 @@ public class AutoscalingtesterFunction implements SalesforceFunction<Object, Fun
     // how to split the array
     int numChunks = 10;
     // controls how many chunks should be processed vs. slept on
-    int mCpuUsageScale = PropertyUtils.getProperty(eventMap, "cpuUsageScale") != null ? Integer.valueOf(BeanUtils.getNestedProperty(eventMap, "cpuUsageScale")) : 0;
+    int mCpuUsageScale = PropertyUtils.getProperty(eventMap, "data.cpuUsageScale") != null ? Integer.valueOf(BeanUtils.getNestedProperty(eventMap, "data.cpuUsageScale")) : 0;
     int cpuUsageScale = Optional.ofNullable(mCpuUsageScale)
                                 .map(cus -> Math.min(cus, numChunks))
                                 .orElse(numChunks);
     int sizeChunk = l.length / numChunks;
 
-    long mSleepInterval = PropertyUtils.getProperty(eventMap, "sleepInterval") != null ? Long.valueOf(BeanUtils.getNestedProperty(eventMap, "sleepInterval")) : 0;
+    long mSleepInterval = PropertyUtils.getProperty(eventMap, "data.sleepInterval") != null ? Long.valueOf(BeanUtils.getNestedProperty(eventMap, "data.sleepInterval")) : 0;
     long sleepInterval = Optional.ofNullable(mSleepInterval)
                                   .map(val -> Math.min(val, durationMilliseconds)) // prevent (reduce likelihood of) timeouts
                                   .orElse(1000l);
