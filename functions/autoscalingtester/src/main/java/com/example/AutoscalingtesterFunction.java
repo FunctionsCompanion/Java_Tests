@@ -70,7 +70,7 @@ public class AutoscalingtesterFunction implements SalesforceFunction<Object, Fun
         // }
 
         for (int j = startIdx; j < startIdx + sizeChunk; ++j) {
-          l[j] = (int)(Math.pow(l[j], 2));
+          l[j] = (int)(Math.pow((l[j] * 2) / 7, 3));
           ++j;
         }
         startIdx += sizeChunk;
