@@ -7,7 +7,7 @@ remain=50
 rm *.log
 while [ $c -le $jobs ]; do 
     sfdx force:apex:execute -f test_apex/runAutoScaleAsync.apex -u test-uet4cvemcwup@example.com >> outAsyncAutoScale.log &
-    sleep 20
+    sleep 1
     echo 'Another run that queues a function invocation.' $c 'out of' $jobs 'invokes started.' 
     c=$(($c+1))
 
