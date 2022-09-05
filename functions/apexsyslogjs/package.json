@@ -13,7 +13,7 @@
     "node": "^16.9"
   },
   "dependencies": {
-    "sf-fc-logger": "^1.2.6"
+    "sf-fc-logger": "1.2.6"
   },
   "scripts": {
     "lint": "eslint . --ext .js --config .eslintrc",
