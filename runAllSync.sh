@@ -8,8 +8,8 @@ rm *.log
 while [ $c -le $jobs ]; do 
     sfdx force:apex:execute -f test_apex/runPLDSync.apex -u test-mzczhjcguvwk@example.com  >> outSyncPLDA.log &
     sleep .5
-    sfdx force:apex:execute -f test_apex/runSFSDKSync.apex -u test-mzczhjcguvwk@example.com >> outSyncSFSDK.log &
-    sleep .5
+    #sfdx force:apex:execute -f test_apex/runSFSDKSync.apex -u test-mzczhjcguvwk@example.com >> outSyncSFSDK.log &
+    #sleep .5
     echo 'Another 4 runs that queue function invocations.' $c 'out of' $jobs 'batches started.' 
     c=$(($c+1))
 
